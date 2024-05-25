@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Performance</title>
+</head>
+<body>
+  <p>performance</p>
+  <div id="performance-div">
+    <label>id:</label>
+    <p th:text="${performance.getId()}"></p>
+    <label>name:</label>
+    <p th:text="${performance.getName()}"></p>
+    <label>description:</label>
+    <p th:text="${performance.getDescription()}"></p>
+  </div>
+  <br>
+  <br>
+  <p>tickets</p>
+  <div id="tickets-div" th:each="ticket: ${performance.getTicketsList()}">
+    <label>ticket id:</label>
+    <p th:text="${ticket}"></p>
+  </div>
+  <p>tickets</p>
+  <div id="actors-div" th:each="ticket: ${performance.getActorsList()}">
+    <label>ticket id:</label>
+    <p th:text="${ticket.getId()}"></p>
+    <label>ticket row:</label>
+    <p th:text="${ticket.getRow()}"></p>
+    <label>ticket place:</label>
+    <p th:text="${ticket.getPlace()}"></p>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Performances</title>
+</head>
+<body>
+<div th:each="performance: ${performances}" id="performances-div">
+    <div id="performance-div">
+        <a th:href="@{/performances/{id}(id = ${performance.getId())}}" th:text="${performance.getName()}"></a>
+    </div>
+</div>
+</body>
+</html>
