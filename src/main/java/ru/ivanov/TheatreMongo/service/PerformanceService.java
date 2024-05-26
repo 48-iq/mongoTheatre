@@ -5,7 +5,8 @@ import java.util.List;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.BasicQuery;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -23,10 +24,9 @@ public class PerformanceService {
 
     public PerformanceDto getPerformanceById(String actorId) {
         MongoTemplate mongoTemplate = mongoTemplateProvider.getMongoTemplate();
-        BasicQuery query = new BasicQuery("{_id: ?0}", actorId);
-        Performance performance = mongoTemplate.findOne(query, Performance.class);
+        Performance performance = mongoTemplate.findById(actorId, Performance.class);
         if (performance == null)
-            throw new IllegalArgumentException("such performance doesn't exist")
+            throw new IllegalArgumentException("such performance doesn't exist");
         if (performance.getTicketsList() == null)
             performance.setTicketsList(new ArrayList<>());
         if (performance.getActors() == null)
@@ -50,7 +50,8 @@ public class PerformanceService {
 
     public void deletePerformance(String performanceId) {
         MongoTemplate mongoTemplate = mongoTemplateProvider.getMongoTemplate();
-        BasicQuery query = new BasicQuery("{_id: ?0}", performanceId);
+        Query query = new Query();
+        query.addCriteria(Criteria.where("_id").is(performanceId));
         mongoTemplate.remove(query, Performance.class);
     }
 }

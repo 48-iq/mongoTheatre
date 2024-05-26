@@ -18,13 +18,11 @@ import com.mongodb.client.MongoClients;
 
 @Component
 public class AuthProviderImpl implements AuthenticationProvider {
-    @Value("${mongodb.connection.url}")
-    private String connectString;
-    @Value("${mongodb.connection.host}")
+    @Value("${mongodb.connection.host:}")
     private String connectionHost;
-    @Value("${mongodb.connection.port}")
+    @Value("${mongodb.connection.port:}")
     private Integer connectionPort;
-    @Value("${mongodb.connection.database}")
+    @Value("${mongodb.connection.database:}")
     private String database;
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
@@ -36,7 +34,7 @@ public class AuthProviderImpl implements AuthenticationProvider {
         ).credential(MongoCredential.createCredential(username, database, password.toCharArray()))
         .build();
         MongoClient mongoClient = MongoClients.create(mcs);
-        MongoTemplate mongoTemplate = new MongoTemplate(mongoClient, "/theatreDB");
+        MongoTemplate mongoTemplate = new MongoTemplate(mongoClient, database);
         return new UsernamePasswordAuthenticationToken(
             new UserDetailsImpl(username, password, mongoTemplate), password, Collections.emptyList()
         );

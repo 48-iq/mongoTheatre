@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>create performance</title>
+</head>
+<body>
+  <h5>update performance</h5>
+  <form th:action="@{/performances}" th:method="post">
+    <label for="name-input">name:</label>
+    <input type="text" id="name-input" name="name">
+    <br>
+    <label for="date-input">date:</label>
+    <input type="text" id="date-input" name="date">
+    <br>
+    <label for="time-input">time:</label>
+    <input type="text"  id="time-input" name="time">
+    <br>
+    <label for="description-input">description:</label>
+    <input type="text" id="descritption-input" name="description">
+    <br>
+    <input type="submit" value="create">
+  </form>
+</body>
+</html>

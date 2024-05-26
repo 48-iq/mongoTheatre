@@ -1,18 +1,17 @@
 package ru.ivanov.theatremongo.service;
 
-import lombok.RequiredArgsConstructor;
-import ru.ivanov.theatremongo.dto.PerformanceDto;
-import ru.ivanov.theatremongo.dto.TicketDto;
-import ru.ivanov.theatremongo.model.Performance;
-import ru.ivanov.theatremongo.model.Ticket;
-import ru.ivanov.theatremongo.security.MongoTemplateProvider;
+import java.util.List;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.BasicQuery;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import lombok.RequiredArgsConstructor;
+import ru.ivanov.theatremongo.dto.TicketDto;
+import ru.ivanov.theatremongo.model.Ticket;
+import ru.ivanov.theatremongo.security.MongoTemplateProvider;
 
 @Service
 @RequiredArgsConstructor
@@ -22,7 +21,8 @@ public class TicketService {
 
     public TicketDto getTicketById(String ticketId) {
         MongoTemplate mongoTemplate = mongoTemplateProvider.getMongoTemplate();
-        BasicQuery query = new BasicQuery("{_id: ?0}", ticketId);
+        Query query = new Query();
+        query.addCriteria(Criteria.where("_id").is(ticketId));
         Ticket ticket = mongoTemplate.findOne(query, Ticket.class);
         return modelMapper.map(ticket, TicketDto.class);
     }
@@ -43,7 +43,8 @@ public class TicketService {
 
     public void deleteTicket(String ticketId) {
         MongoTemplate mongoTemplate = mongoTemplateProvider.getMongoTemplate();
-        BasicQuery query = new BasicQuery("{_id: ?0}", ticketId);
+        Query query = new Query();
+        query.addCriteria(Criteria.where("_id").is(ticketId));
         mongoTemplate.remove(query, Ticket.class);
     }
 }

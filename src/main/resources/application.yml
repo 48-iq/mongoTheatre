@@ -1,0 +1,14 @@
+spring:
+    application:
+        name: TheatreMongo
+    mvc:    
+        hiddenmethod:
+            filter:
+                enabled: true
+mongodb:
+    connection:
+        database: theatre
+        host: localhost
+        port: 27017
+
+

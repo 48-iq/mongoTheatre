@@ -1,16 +1,19 @@
 package ru.ivanov.theatremongo.service;
 
+import java.util.List;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.stereotype.Service;
+
 import lombok.RequiredArgsConstructor;
 import ru.ivanov.theatremongo.dto.ActorDto;
 import ru.ivanov.theatremongo.model.Actor;
 import ru.ivanov.theatremongo.security.MongoTemplateProvider;
 
-import org.modelmapper.ModelMapper;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.BasicQuery;
-import org.springframework.stereotype.Service;
 
-import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -20,8 +23,7 @@ public class ActorService {
 
     public ActorDto getActorById(String actorId) {
         MongoTemplate mongoTemplate = mongoTemplateProvider.getMongoTemplate();
-        BasicQuery query = new BasicQuery("{_id: ?0}", actorId);
-        Actor actor = mongoTemplate.findOne(query, Actor.class);
+        Actor actor = mongoTemplate.findById(actorId, Actor.class);
         return modelMapper.map(actor, ActorDto.class);
     }
 
@@ -34,7 +36,8 @@ public class ActorService {
 
     public List<ActorDto> getPerformanceActors(String performanceId) {
         MongoTemplate mongoTemplate = mongoTemplateProvider.getMongoTemplate();
-        BasicQuery query = new BasicQuery("{performanceId: ?0}", performanceId);
+        Query query = new Query();
+        query.addCriteria(Criteria.where("_id").is(performanceId));
         return mongoTemplate.find(query, Actor.class).stream()
                 .map(actor -> modelMapper.map(actor, ActorDto.class))
                 .toList();
@@ -49,7 +52,8 @@ public class ActorService {
 
     public void deleteActor(String actorId) {
         MongoTemplate mongoTemplate = mongoTemplateProvider.getMongoTemplate();
-        BasicQuery query = new BasicQuery("{_id: ?0}", actorId);
+        Query query = new Query();
+        query.addCriteria(Criteria.where("_id").is(actorId));
         mongoTemplate.remove(query, Actor.class);
     }
 }

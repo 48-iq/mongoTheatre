@@ -34,11 +34,16 @@ public class PerformanceController {
         return "performance/update";
     }
 
+    @GetMapping("/new")
+    public String getPerformanceCreatePage() {
+        return "performance/new";
+    }
+
     @PutMapping("/{id}")
-    public String updatePerformanceProcessing(@PathVariable String id, @ModelAttribute PerformanceDto performanceDto) {
+    public String updatePerformanceProcessing(@PathVariable("id") String id, @ModelAttribute PerformanceDto performanceDto) {
         performanceDto.setId(id);
         performanceService.savePerformance(performanceDto);
-        return String.format("redirect:/performances/%d/update", id);
+        return String.format("redirect:/performances/%s/update", id);
     }
 
     @PostMapping

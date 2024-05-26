@@ -6,18 +6,20 @@
     <title>Performance</title>
 </head>
 <body>
-  <p>performance</p>
-  <div id="performance-div">
-    <label for="performance-id">id:</label>
-    <p th:text="${performance.getId()}" id="performance-id"></p>
-    <label for="performance-name">name:</label>
-    <p th:text="${performance.getName()}" id="performance-name"></p>
-    <label for="performance-description">description:</label>
-    <p th:text="${performance.getDescription()}" id="performance-description"></p>
-  </div>
-  <br>
-  <br>
-  <a th:href="@{/performances/{id}/tickets(id = {$performance.getId()})}">tickets</a>
-  <a th:href="@{/performances/{id}/actors(id = {$performance.getId()})}">actors</a>
+  <h5>update performance</h5>
+  <form th:action="@{/performances/{id}(id=${performance.getId()})}" th:method="put">
+    <label for="name-input">name:</label>
+    <input type="text" th:value="${performance.getName()}" id="name-input" name="name">
+    <label for="date-input">date:</label>
+    <input type="text" th:value="${performance.getDate()}" id="date-input" name="date">
+    <label for="time-input">time:</label>
+    <input type="text" th:value="${performance.getTime()}" id="time-input" name="time">
+    <label for="description-input">description:</label>
+    <input type="text" th:value="${performance.getDescription()}" id="descritption-input" name="description">
+    <input type="submit" value="update">
+  </form>
+  <form th:action="@{/performances/{id}(id=${performance.getId()})}" th:method="delete">
+    <input type="submit" value="remove">
+  </form>
 </body>
 </html>
