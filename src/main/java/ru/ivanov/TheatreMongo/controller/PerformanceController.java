@@ -1,13 +1,20 @@
 package ru.ivanov.theatremongo.controller;
 
-import lombok.RequiredArgsConstructor;
-import ru.ivanov.theatremongo.service.PerformanceService;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import lombok.RequiredArgsConstructor;
+import ru.ivanov.theatremongo.dto.PerformanceDto;
+import ru.ivanov.theatremongo.service.PerformanceService;
+
+
 
 @Controller
 @RequiredArgsConstructor
@@ -18,12 +25,32 @@ public class PerformanceController {
     @GetMapping
     public String getAllPerformance(Model model) {
         model.addAttribute("performances", performanceService.getAllPerformances());
-        return "home/performances";
+        return "performance/all";
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{id}/update")
     public String getPerformanceById(@PathVariable("id") String id, Model model) {
         model.addAttribute("performance", performanceService.getPerformanceById(id));
-        return "home/performance";
+        return "performance/update";
     }
+
+    @PutMapping("/{id}")
+    public String updatePerformanceProcessing(@PathVariable String id, @ModelAttribute PerformanceDto performanceDto) {
+        performanceDto.setId(id);
+        performanceService.savePerformance(performanceDto);
+        return String.format("redirect:/performances/%d/update", id);
+    }
+
+    @PostMapping
+    public String createPerformance(@ModelAttribute PerformanceDto performanceDto ) {
+        performanceService.savePerformance(performanceDto);
+        return "redirect:/performances";
+    }
+
+    @DeleteMapping("/{id}")
+    public String deletePerformance(@PathVariable String id) {
+        performanceService.deletePerformance(id);
+        return "redirect:/performances";
+    }
+    
 }

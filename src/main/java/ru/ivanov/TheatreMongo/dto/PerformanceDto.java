@@ -1,11 +1,13 @@
 package ru.ivanov.theatremongo.dto;
 
-import lombok.*;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,5 +21,5 @@ public class PerformanceDto {
     private String time;
     private String description;
     private List<String> ticketsList = new ArrayList<>();
-    private Map<String, String> actors = new HashMap<>();
+    private List<String> actors = new ArrayList<>();
 }

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Performance</title>
+</head>
+<body>
+  <p>performance</p>
+  <div id="performance-div">
+    <label for="performance-id">id:</label>
+    <p th:text="${performance.getId()}" id="performance-id"></p>
+    <label for="performance-name">name:</label>
+    <p th:text="${performance.getName()}" id="performance-name"></p>
+    <label for="performance-description">description:</label>
+    <p th:text="${performance.getDescription()}" id="performance-description"></p>
+  </div>
+  <br>
+  <br>
+  <a th:href="@{/performances/{id}/tickets(id = {$performance.getId()})}">tickets</a>
+  <a th:href="@{/performances/{id}/actors(id = {$performance.getId()})}">actors</a>
+</body>
+</html>

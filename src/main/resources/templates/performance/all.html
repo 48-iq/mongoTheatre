@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Performances</title>
+</head>
+<body>
+<table>
+    <tr>
+        <td>date</td>
+        <td>name</td>
+        <td>time</td>
+        <td>description</td>
+        <td>tickets</td>
+        <td>actors</td>
+        <td>update</td>
+    </tr>
+    <tr th:each="performance: ${performances}" id="performances-div">
+        <td th:text="${performance.getDate()}"></td>
+        <td th:text="${performance.getName()}"></td>
+        <td th:text="${performance.getTime()}"></td>
+        <td th:text="${performance.getDescription()}"></td>
+        <td><a th:href="@{/performances/{id}/tickets(id=${performance.getId()})}">tickets</a></td>
+        <td><a th:href="@{/performances/{id}/actors(id=${performance.getId()})}">actors</a></td>
+        <td><a th:href="@{/performances/{id}/update(id=${performance.getId()})}">update</a></td>
+    </tr>
+</table>
+</body>
+</html>
