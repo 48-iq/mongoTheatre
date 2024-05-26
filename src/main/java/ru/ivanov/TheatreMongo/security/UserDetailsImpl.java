@@ -1,4 +1,4 @@
-package ru.ivanov.TheatreMongo.security;
+package ru.ivanov.theatremongo.security;
 
 import lombok.*;
 import org.springframework.data.mongodb.core.MongoTemplate;

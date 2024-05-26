@@ -1,4 +1,4 @@
-package ru.ivanov.TheatreMongo.config;
+package ru.ivanov.theatremongo.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

@@ -1,13 +1,14 @@
-package ru.ivanov.TheatreMongo.service;
+package ru.ivanov.theatremongo.service;
 
 import lombok.RequiredArgsConstructor;
+import ru.ivanov.theatremongo.dto.ActorDto;
+import ru.ivanov.theatremongo.model.Actor;
+import ru.ivanov.theatremongo.security.MongoTemplateProvider;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.BasicQuery;
 import org.springframework.stereotype.Service;
-import ru.ivanov.TheatreMongo.dto.ActorDto;
-import ru.ivanov.TheatreMongo.model.Actor;
-import ru.ivanov.TheatreMongo.security.MongoTemplateProvider;
 
 import java.util.List;
 

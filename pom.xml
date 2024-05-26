@@ -14,7 +14,7 @@
 	<name>TheatreMongo</name>
 	<description>project for university lab</description>
 	<properties>
-		<java.version>22</java.version>
+		<java.version>17</java.version>
 	</properties>
 	<dependencies>
 		<dependency>

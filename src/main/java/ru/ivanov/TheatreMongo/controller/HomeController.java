@@ -1,11 +1,12 @@
-package ru.ivanov.TheatreMongo.controller;
+package ru.ivanov.theatremongo.controller;
 
 import lombok.RequiredArgsConstructor;
+import ru.ivanov.theatremongo.service.PerformanceService;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import ru.ivanov.TheatreMongo.service.PerformanceService;
 
 @Controller
 @RequiredArgsConstructor

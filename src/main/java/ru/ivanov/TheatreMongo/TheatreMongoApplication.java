@@ -1,4 +1,4 @@
-package ru.ivanov.TheatreMongo;
+package ru.ivanov.theatremongo;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;

@@ -1,4 +1,4 @@
-package ru.ivanov.TheatreMongo.model;
+package ru.ivanov.theatremongo.model;
 
 import lombok.*;
 import org.springframework.data.annotation.Id;

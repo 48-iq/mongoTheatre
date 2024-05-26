@@ -1,4 +1,4 @@
-package ru.ivanov.TheatreMongo.dto;
+package ru.ivanov.theatremongo.dto;
 
 import lombok.*;
 import org.springframework.data.annotation.Id;

@@ -1,9 +1,10 @@
-package ru.ivanov.TheatreMongo.model;
+package ru.ivanov.theatremongo.model;
 
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Document(collection = "performances")
@@ -19,6 +20,6 @@ public class Performance {
     private String name;
     private String time;
     private String description;
-    private List<String> ticketsList;
-    private List<String> actors;
+    private List<String> ticketsList = new ArrayList<>();
+    private List<String> actors = new ArrayList<>();
 }

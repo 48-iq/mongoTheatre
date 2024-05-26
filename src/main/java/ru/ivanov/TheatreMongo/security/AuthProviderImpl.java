@@ -1,9 +1,7 @@
-package ru.ivanov.TheatreMongo.security;
+package ru.ivanov.theatremongo.security;
 
-import com.mongodb.MongoClientSettings;
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClientFactory;
-import com.mongodb.client.MongoClients;
+import java.util.Collections;
+
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -11,7 +9,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Component;
 
-import java.util.Collections;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
 
 @Component
 public class AuthProviderImpl implements AuthenticationProvider {
