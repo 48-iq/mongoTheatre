@@ -1,5 +1,6 @@
 package ru.ivanov.theatremongo.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import ru.ivanov.theatremongo.dto.ActorDto;
 import ru.ivanov.theatremongo.model.Actor;
+import ru.ivanov.theatremongo.model.Performance;
 import ru.ivanov.theatremongo.security.MongoTemplateProvider;
 
 
@@ -36,8 +38,11 @@ public class ActorService {
 
     public List<ActorDto> getPerformanceActors(String performanceId) {
         MongoTemplate mongoTemplate = mongoTemplateProvider.getMongoTemplate();
+        Performance performance = mongoTemplate.findById(performanceId, Performance.class);
+        if (performance == null)
+            throw new IllegalArgumentException("such performance doesn't exist");
         Query query = new Query();
-        query.addCriteria(Criteria.where("_id").is(performanceId));
+        query.addCriteria(Criteria.where("_id").in(performance.getActors()));
         return mongoTemplate.find(query, Actor.class).stream()
                 .map(actor -> modelMapper.map(actor, ActorDto.class))
                 .toList();
@@ -55,5 +60,12 @@ public class ActorService {
         Query query = new Query();
         query.addCriteria(Criteria.where("_id").is(actorId));
         mongoTemplate.remove(query, Actor.class);
+    }
+
+    public List<ActorDto> getActorsWithoutPerformance(String performanceId) {
+        List<ActorDto> performanceActors = getPerformanceActors(performanceId);
+        List<ActorDto> allActors = new ArrayList<>(getAllActors());
+        allActors.removeAll(performanceActors);
+        return allActors;
     }
 }

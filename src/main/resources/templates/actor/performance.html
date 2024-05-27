@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en"
+    xmlns="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>actors</title>
+</head>
+<body>
+    <table th:each="actor: ${actors}">
+        <tr>
+            <td>name</td>
+            <td>surname</td>
+            <td>update</td>
+            <td>delete</td>
+        </tr>
+        <tr>
+            <td th:text="${actor.getName()}"></td>
+            <td th:text="${actor.getSurname()}"></td>
+            <td><a th:href="@{/actors/{id}/update(id=${actor.getId()})}">update</a></td>
+            <td>
+                <form th:action="@{/actors/{id}/from/performances/{perfId}(id=${actor.getId()}, perfId=${performance.getId()})}" th:method="delete">
+                    <input type="submit" value="delete">
+                </form>
+            </td>
+        </tr>
+    </table>
+    <a th:href="@{/actors/performances/{id}/add(id=${performance.getId()})}">add</a>
+</body>
+</html>

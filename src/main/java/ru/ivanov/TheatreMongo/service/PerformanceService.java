@@ -54,4 +54,37 @@ public class PerformanceService {
         query.addCriteria(Criteria.where("_id").is(performanceId));
         mongoTemplate.remove(query, Performance.class);
     }
+
+    public void addActorToPerformance(String performanceId, String actorId) {
+        MongoTemplate mongoTemplate = mongoTemplateProvider.getMongoTemplate();
+        Performance performance = mongoTemplate.findById(performanceId, Performance.class);
+        if (performance.getActors() == null)
+            performance.setActors(new ArrayList<>());
+        else 
+            performance.setActors(new ArrayList<>(performance.getActors()));
+        if (!performance.getActors().contains(actorId))
+            performance.getActors().add(actorId);
+        mongoTemplate.save(performance);
+    }
+
+    public void removeActorFromPerformance(String performanceId, String actorId) {
+        MongoTemplate mongoTemplate = mongoTemplateProvider.getMongoTemplate();
+        Performance performance = mongoTemplate.findById(performanceId, Performance.class);
+        if (performance.getActors() == null)
+            performance.setActors(new ArrayList<>());
+        else 
+            performance.setActors(new ArrayList<>(performance.getActors()));
+        if (performance.getActors().contains(actorId))
+            performance.getActors().remove(actorId);
+        mongoTemplate.save(performance);
+    }
+
+    public List<PerformanceDto> getPerformancesByName(String name) {
+        MongoTemplate mongoTemplate = mongoTemplateProvider.getMongoTemplate();
+        Query query = new Query();
+        query.addCriteria(Criteria.where("name").regex(name));
+        return mongoTemplate.find(query, Performance.class).stream()
+                .map(performance -> modelMapper.map(performance, PerformanceDto.class))
+                .toList();
+    }
 }

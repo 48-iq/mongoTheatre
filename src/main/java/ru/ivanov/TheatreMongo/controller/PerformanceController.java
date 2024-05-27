@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import lombok.RequiredArgsConstructor;
+import ru.ivanov.theatremongo.dto.NameDto;
 import ru.ivanov.theatremongo.dto.PerformanceDto;
 import ru.ivanov.theatremongo.service.PerformanceService;
+
 
 
 
@@ -39,11 +41,10 @@ public class PerformanceController {
         return "performance/new";
     }
 
-    @PutMapping("/{id}")
-    public String updatePerformanceProcessing(@PathVariable("id") String id, @ModelAttribute PerformanceDto performanceDto) {
-        performanceDto.setId(id);
-        performanceService.savePerformance(performanceDto);
-        return String.format("redirect:/performances/%s/update", id);
+    @PutMapping
+    public String updatePerformanceProcessing(@ModelAttribute PerformanceDto performanceDto) {
+        performanceDto = performanceService.savePerformance(performanceDto);
+        return String.format("redirect:/performances/%s/update", performanceDto.getId());
     }
 
     @PostMapping
@@ -57,5 +58,15 @@ public class PerformanceController {
         performanceService.deletePerformance(id);
         return "redirect:/performances";
     }
+
+    @GetMapping("/find")
+    public String getMethodName(Model model, @ModelAttribute NameDto name) {
+        if (name == null || name.toString().isBlank()) {
+            return "redirect:/performances";
+        }
+        model.addAttribute("performances", performanceService.getPerformancesByName(name.toString()));
+        return "performance/all";
+    }
+    
     
 }

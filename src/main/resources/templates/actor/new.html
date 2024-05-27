@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>new actor</title>
+</head>
+<body>
+    <form th:action="@{/actors}" th:method="post">
+        <label for="name-input">name:</label>
+        <input type="text" id="name-input" name="name">
+        <label for="surname-input">surname:</label>
+        <input type="text" id="surname-input" name="surname">
+        <input type="submit" value="create">
+    </form>
+</body>
+</html>

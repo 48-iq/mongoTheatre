@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>update actor</title>
+</head>
+<body>
+    <form th:action="@{/actors}" th:method="put">
+        <input type="hidden" th:value="${actor.getId()}" name="id">
+        <label for="name-input">name:</label>
+        <input type="text" th:value="${actor.getName()}" id="name-input" name="name">
+        <label for="surname-input">surname:</label>
+        <input type="text" th:value="${actor.getSurname()}" id="surname-input" name="surname">
+        <input type="submit" value="update">
+    </form>
+    <form th:action="@{/actors/{id}(id=${actor.getId()})}" th:method="delete">
+        <input type="submit" value="remove">
+    </form>
+</body>
+</html>

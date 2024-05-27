@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <table th:each="actor: ${actors}">
+        <tr>
+            <td>name</td>
+            <td>surname</td>
+            <td>add</td>
+        </tr>
+        <tr>
+            <td th:text="${actor.getName()}"></td>
+            <td th:text="${actor.getSurname()}"></td>
+            <td><form th:action="@{/actors/{id}/addto/performances/{perfId}(id=${actor.getId()}, perfId=${performance.getId()})}" th:method="post">
+                <input type="submit" value="add">
+            </form></td>
+        </tr>
+    </table>
+</body>
+</html>

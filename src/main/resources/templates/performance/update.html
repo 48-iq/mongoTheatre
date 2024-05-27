@@ -7,7 +7,8 @@
 </head>
 <body>
   <h5>update performance</h5>
-  <form th:action="@{/performances/{id}(id=${performance.getId()})}" th:method="put">
+  <form th:action="@{/performances}" th:method="put">
+    <input type="hidden" th:value="${performance.getId()}" name="id">
     <label for="name-input">name:</label>
     <input type="text" th:value="${performance.getName()}" id="name-input" name="name">
     <label for="date-input">date:</label>
