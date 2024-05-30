@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>error</title>
+</head>
+<body>
+<a th:href="@{/home}">home</a>
+<br>
+    <p th:text="${error.getMessage()}"></p>
+    <p th:text="${error.getCause()}"></p>
+</body>
+</html>

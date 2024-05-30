@@ -5,7 +5,9 @@
   <title>create performance</title>
 </head>
 <body>
-  <h5>update performance</h5>
+<a th:href="@{/performances}">performances</a>
+<br>
+  <h5>create performance</h5>
   <form th:action="@{/performances}" th:method="post">
     <label for="name-input">name:</label>
     <input type="text" id="name-input" name="name">

@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="en"
-    xmlns="http://www.thymeleaf.org">
+    xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>actors</title>
 </head>
 <body>
+<a th:href="@{/performances}">performances</a>
+<br>
     <table>
         <tr>
             <td>name</td>
@@ -14,7 +16,7 @@
             <td>update</td>
             <td>delete</td>
         </tr>
-        <tr th:each="actor: ${actors}">
+        <tr th:each="actor: ${actors}" >
             <td th:text="${actor.getName()}"></td>
             <td th:text="${actor.getSurname()}"></td>
             <td><a th:href="@{/actors/{id}/update(id=${actor.getId()})}">update</a></td>

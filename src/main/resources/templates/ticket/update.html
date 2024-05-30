@@ -6,6 +6,8 @@
     <title>update actor</title>
 </head>
 <body>
+<a th:href="@{/tickets/performances/{id}(id=${performance.getId()})}">tickets</a>
+<br>
     <form th:action="@{/tickets/performances/{id}(id=${performance.getId()})}" th:method="put">
         <input type="hidden" th:value="${ticket.getId()}" name="id">
         <label for="row-input">row:</label>

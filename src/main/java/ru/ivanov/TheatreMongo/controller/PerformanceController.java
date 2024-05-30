@@ -23,6 +23,11 @@ import ru.ivanov.theatremongo.service.PerformanceService;
 @RequestMapping("/performances")
 public class PerformanceController {
     private final PerformanceService performanceService;
+    @GetMapping("/income")
+    public String getIncome(Model model) {
+        model.addAttribute("income", performanceService.getIncome());
+        return "performance/income";
+    }
 
     @GetMapping
     public String getAllPerformance(Model model) {

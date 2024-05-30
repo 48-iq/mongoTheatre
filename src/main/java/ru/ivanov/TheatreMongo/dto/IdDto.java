@@ -2,14 +2,11 @@ package ru.ivanov.theatremongo.dto;
 
 import lombok.*;
 
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Getter
-@Setter
-@ToString
-public class ActorDto {
+public class IdDto {
     private String id;
-    private String name;
-    private String surname;
 }

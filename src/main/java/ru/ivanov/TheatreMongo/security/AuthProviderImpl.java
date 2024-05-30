@@ -4,6 +4,7 @@ import java.util.Collections;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -15,6 +16,7 @@ import com.mongodb.MongoCredential;
 import com.mongodb.ServerAddress;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
+import ru.ivanov.theatremongo.model.Performance;
 
 @Component
 public class AuthProviderImpl implements AuthenticationProvider {
@@ -35,6 +37,11 @@ public class AuthProviderImpl implements AuthenticationProvider {
         .build();
         MongoClient mongoClient = MongoClients.create(mcs);
         MongoTemplate mongoTemplate = new MongoTemplate(mongoClient, database);
+        try {
+            mongoTemplate.findAll(Performance.class);
+        } catch (Exception e) {
+            throw new AuthenticationCredentialsNotFoundException("Wrong username or password");
+        }
         return new UsernamePasswordAuthenticationToken(
             new UserDetailsImpl(username, password, mongoTemplate), password, Collections.emptyList()
         );

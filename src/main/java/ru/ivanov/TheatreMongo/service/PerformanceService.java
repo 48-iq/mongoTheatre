@@ -115,4 +115,13 @@ public class PerformanceService {
                 .map(performance -> modelMapper.map(performance, PerformanceDto.class))
                 .toList();
     }
+
+    public Integer getIncome() {
+        List<Ticket> tickets = mongoTemplateProvider.getMongoTemplate().findAll(Ticket.class);
+        Integer income = 0;
+        for (Ticket ticket : tickets) {
+            income += ticket.getPrice();
+        }
+        return income;
+    }
 }

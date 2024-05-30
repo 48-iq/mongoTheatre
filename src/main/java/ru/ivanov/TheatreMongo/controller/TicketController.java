@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import lombok.RequiredArgsConstructor;
+import ru.ivanov.theatremongo.dto.IdDto;
 import ru.ivanov.theatremongo.dto.TicketDto;
 import ru.ivanov.theatremongo.service.PerformanceService;
 import ru.ivanov.theatremongo.service.TicketService;
@@ -40,7 +41,6 @@ public class TicketController {
     @PostMapping("/performances/{id}")
     public String createTicket(@ModelAttribute TicketDto ticketDto, @PathVariable("id") String performanceId) {
         ticketDto.setId(null);
-        System.out.println(ticketDto.getId() + "------------------------------id");
         ticketDto = ticketService.saveTicket(performanceId,ticketDto);
         performanceService.addTicketToPerformance(performanceId, ticketDto.getId());
         return "redirect:/tickets/performances/" + performanceId;
@@ -64,6 +64,7 @@ public class TicketController {
         performanceService.removeTicketFromPerformance(perfId, id);
         return "redirect:/tickets/performances/" + perfId;
     }
+
 
     
 }

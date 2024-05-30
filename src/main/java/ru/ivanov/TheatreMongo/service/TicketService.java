@@ -21,6 +21,8 @@ public class TicketService {
     private final MongoTemplateProvider mongoTemplateProvider;
     private final ModelMapper modelMapper;
 
+
+
     public TicketDto getTicketById(String ticketId) {
         MongoTemplate mongoTemplate = mongoTemplateProvider.getMongoTemplate();
         Query query = new Query();

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import lombok.RequiredArgsConstructor;
 import ru.ivanov.theatremongo.dto.ActorDto;
+import ru.ivanov.theatremongo.dto.NameDto;
 import ru.ivanov.theatremongo.service.ActorService;
 import ru.ivanov.theatremongo.service.PerformanceService;
 
@@ -84,6 +85,15 @@ public class ActorsController {
     public String deleteActorFromPerformance(@PathVariable("id") String actorId, @PathVariable("perfId") String performanceId) {
         performanceService.removeActorFromPerformance(performanceId, actorId);
         return String.format("redirect:/actors/performances/%s", performanceId);
+    }
+
+    @GetMapping("/find")
+    public String getMethodName(Model model, @ModelAttribute NameDto name) {
+        if (name == null || name.getName().isBlank()) {
+            return "redirect:/actors";
+        }
+        model.addAttribute("actors", actorService.getActorsByName(name.getName()));
+        return "actor/all";
     }
     
 

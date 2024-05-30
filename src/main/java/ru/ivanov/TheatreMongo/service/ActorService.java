@@ -10,6 +10,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import ru.ivanov.theatremongo.dto.ActorDto;
 import ru.ivanov.theatremongo.model.Actor;
 import ru.ivanov.theatremongo.model.Performance;
@@ -65,7 +66,18 @@ public class ActorService {
     public List<ActorDto> getActorsWithoutPerformance(String performanceId) {
         List<ActorDto> performanceActors = getPerformanceActors(performanceId);
         List<ActorDto> allActors = new ArrayList<>(getAllActors());
-        allActors.removeAll(performanceActors);
+        allActors = allActors.stream().filter(actor -> performanceActors.stream()
+                        .noneMatch(perActor -> actor.getId().equals(perActor.getId())))
+                .toList();
         return allActors;
+    }
+
+    public List<ActorDto> getActorsByName(String name) {
+        MongoTemplate mongoTemplate = mongoTemplateProvider.getMongoTemplate();
+        Query query = new Query();
+        query.addCriteria(Criteria.where("name").regex(name));
+        return mongoTemplate.find(query, Actor.class).stream()
+                .map(actor -> modelMapper.map(actor, ActorDto.class))
+                .toList();
     }
 }

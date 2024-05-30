@@ -6,6 +6,8 @@
     <title>Performance</title>
 </head>
 <body>
+<a th:href="@{/performances}">performances</a>
+<br>
   <h5>update performance</h5>
   <form th:action="@{/performances}" th:method="put">
     <input type="hidden" th:value="${performance.getId()}" name="id">
