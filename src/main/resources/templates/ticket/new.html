@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>update actor</title>
+</head>
+<body>
+    <form th:action="@{/tickets/performances/{id}(id=${performance.getId()})}" th:method="post">
+        <label for="row-input">row:</label>
+        <input type="text" id="row-input" name="row">
+        <label for="place-input">place:</label>
+        <input type="text" id="place-input" name="place">
+        <label for="price-input">price:</label>
+        <input type="text" id="price-input" name="price">
+        <input type="submit" value="create">
+    </form>
+</body>
+</html>

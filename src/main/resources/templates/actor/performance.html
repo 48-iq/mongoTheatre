@@ -7,14 +7,14 @@
     <title>actors</title>
 </head>
 <body>
-    <table th:each="actor: ${actors}">
+    <table>
         <tr>
             <td>name</td>
             <td>surname</td>
             <td>update</td>
             <td>delete</td>
         </tr>
-        <tr>
+        <tr th:each="actor: ${actors}">
             <td th:text="${actor.getName()}"></td>
             <td th:text="${actor.getSurname()}"></td>
             <td><a th:href="@{/actors/{id}/update(id=${actor.getId()})}">update</a></td>

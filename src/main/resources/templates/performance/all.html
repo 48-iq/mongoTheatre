@@ -23,7 +23,7 @@
         <td th:text="${performance.getName()}"></td>
         <td th:text="${performance.getTime()}"></td>
         <td th:text="${performance.getDescription()}"></td>
-        <td><a th:href="@{/performances/{id}/tickets(id=${performance.getId()})}">tickets</a></td>
+        <td><a th:href="@{/tickets/performances/{id}(id=${performance.getId()})}">tickets</a></td>
         <td><a th:href="@{/actors/performances/{id}(id=${performance.getId()})}">actors</a></td>
         <td><a th:href="@{/performances/{id}/update(id=${performance.getId()})}">update</a></td>
     </tr>

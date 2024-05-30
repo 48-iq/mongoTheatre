@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>update actor</title>
+</head>
+<body>
+    <form th:action="@{/tickets/performances/{id}(id=${performance.getId()})}" th:method="put">
+        <input type="hidden" th:value="${ticket.getId()}" name="id">
+        <label for="row-input">row:</label>
+        <input type="text" th:value="${ticket.getRow()}" id="row-input" name="row">
+        <label for="place-input">place:</label>
+        <input type="text" th:value="${ticket.getPlace()}" id="place-input" name="place">
+        <label for="price-input">price:</label>
+        <input type="text" th:value="${ticket.getPrice()}" id="price-input" name="price">
+        <input type="submit" value="update">
+    </form>
+    <form th:action="@{/tickets/{id}/performances/{perfId}(id=${ticket.getId()}, perfId=${performance.getId()})}" th:method="delete">
+        <input type="submit" value="remove">
+    </form>
+</body>
+</html>

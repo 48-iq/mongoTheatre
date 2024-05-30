@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>tickets</title>
+</head>
+<body>
+    <a th:href="@{/tickets/performances/{id}/new(id=${performance.getId()})}">create</a>
+<br>
+<table>
+    <tr>
+        <td>id</td>
+        <td>row</td>
+        <td>place</td>
+        <td>price</td>
+        <td>update</td>
+    </tr>
+    <tr th:each="ticket: ${tickets}" id="tickets-tr">
+        <td th:text="${ticket.getId()}"></td>
+        <td th:text="${ticket.getRow()}"></td>
+        <td th:text="${ticket.getPlace()}"></td>
+        <td><a th:href="@{/tickets/{id}/update/performances/{perfId}(id=${ticket.getId()}, perfId=${performance.getId()})}">update</a></td>
+    </tr>
+</table>
+</body>
+</html>

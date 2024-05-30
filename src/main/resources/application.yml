@@ -10,5 +10,13 @@ mongodb:
         database: theatre
         host: localhost
         port: 27017
+logging:
+    level:
+        org:
+            springframework:
+                data:
+                    mongodb:
+                        core:
+                            MongoTemplate: DEBUG
 
 

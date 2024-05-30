@@ -8,13 +8,13 @@
 <body>
     <a th:href="@{/actors/new}">create</a>
     <br>
-    <table th:each="actor: ${actors}">
+    <table>
         <tr>
             <td>name</td>
             <td>surname</td>
             <td>update</td>
         </tr>
-        <tr>
+        <tr th:each="actor: ${actors}">
             <td th:text="${actor.name}"></td>
             <td th:text="${actor.surname}"></td>
             <td><a th:href="@{/actors/{id}/update(id=${actor.getId()})}">update</a></td>

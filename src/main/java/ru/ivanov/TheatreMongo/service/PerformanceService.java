@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import ru.ivanov.theatremongo.dto.PerformanceDto;
 import ru.ivanov.theatremongo.model.Performance;
+import ru.ivanov.theatremongo.model.Ticket;
 import ru.ivanov.theatremongo.security.MongoTemplateProvider;
 
 
@@ -52,6 +53,14 @@ public class PerformanceService {
         MongoTemplate mongoTemplate = mongoTemplateProvider.getMongoTemplate();
         Query query = new Query();
         query.addCriteria(Criteria.where("_id").is(performanceId));
+        Performance performance = mongoTemplate.findById(performanceId, Performance.class);
+        if (performance == null)
+            throw new IllegalArgumentException("such performance doesn't exist");
+        if (performance.getTicketsList() != null){
+            Query query2 = new Query();
+            query2.addCriteria(Criteria.where("_id").in(performance.getTicketsList()));
+            mongoTemplate.remove(query2, Ticket.class);
+        }
         mongoTemplate.remove(query, Performance.class);
     }
 
@@ -64,6 +73,25 @@ public class PerformanceService {
             performance.setActors(new ArrayList<>(performance.getActors()));
         if (!performance.getActors().contains(actorId))
             performance.getActors().add(actorId);
+        mongoTemplate.save(performance);
+    }
+
+    public void addTicketToPerformance(String performanceId, String ticketId) {
+        MongoTemplate mongoTemplate = mongoTemplateProvider.getMongoTemplate();
+        Performance performance = mongoTemplate.findById(performanceId, Performance.class);
+        if (performance.getTicketsList() == null)
+            performance.setTicketsList(new ArrayList<>());
+        
+        if (!performance.getTicketsList().contains(ticketId))
+            performance.getTicketsList().add(ticketId);
+        mongoTemplate.save(performance);
+    }
+
+    public void removeTicketFromPerformance(String performanceId, String ticketId) {
+        MongoTemplate mongoTemplate = mongoTemplateProvider.getMongoTemplate();
+        Performance performance = mongoTemplate.findById(performanceId, Performance.class);
+        if (performance.getTicketsList().contains(ticketId))
+            performance.getTicketsList().remove(ticketId);
         mongoTemplate.save(performance);
     }
 

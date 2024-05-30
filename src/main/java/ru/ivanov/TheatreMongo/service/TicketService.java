@@ -1,5 +1,6 @@
 package ru.ivanov.theatremongo.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import ru.ivanov.theatremongo.dto.TicketDto;
+import ru.ivanov.theatremongo.model.Performance;
 import ru.ivanov.theatremongo.model.Ticket;
 import ru.ivanov.theatremongo.security.MongoTemplateProvider;
 
@@ -27,6 +29,25 @@ public class TicketService {
         return modelMapper.map(ticket, TicketDto.class);
     }
 
+    public List<TicketDto> getTicketsByPerformanceId(String performanceId) {
+        MongoTemplate mongoTemplate = mongoTemplateProvider.getMongoTemplate();
+        Performance performance = mongoTemplate.findById(performanceId, Performance.class);
+        if (performance == null) 
+            throw new IllegalArgumentException("such performance doesn't exist");
+        if (performance.getTicketsList() == null)
+            performance.setTicketsList(new ArrayList<>());
+        else 
+            performance.setTicketsList(new ArrayList<>(performance.getTicketsList()));
+        Query query = new Query();
+        query.addCriteria(Criteria.where("_id").in(performance.getTicketsList()));
+        List<Ticket> tickets = mongoTemplate.find(query, Ticket.class);
+        if (tickets == null)
+            return null;
+        return tickets.stream()
+            .map(mapper -> modelMapper.map(mapper, TicketDto.class))
+            .toList();
+    }
+
     public List<TicketDto> getAllTickets() {
         MongoTemplate mongoTemplate = mongoTemplateProvider.getMongoTemplate();
         return mongoTemplate.findAll(Ticket.class).stream()
@@ -34,7 +55,7 @@ public class TicketService {
                 .toList();
     }
 
-    public TicketDto saveTicket(TicketDto ticketDto) {
+    public TicketDto saveTicket(String performanceId, TicketDto ticketDto) {
         MongoTemplate mongoTemplate = mongoTemplateProvider.getMongoTemplate();
         Ticket ticket = modelMapper.map(ticketDto, Ticket.class);
         ticket = mongoTemplate.save(ticket);
