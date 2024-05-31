@@ -7,6 +7,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -54,6 +55,14 @@ public class ActorService {
         Actor actor = modelMapper.map(actorDto, Actor.class);
         actor = mongoTemplate.save(actor);
         return modelMapper.map(actor, ActorDto.class);
+    }
+
+    public void updateActor(ActorDto actorDto) {
+        MongoTemplate mongoTemplate = mongoTemplateProvider.getMongoTemplate();
+        Actor actor = modelMapper.map(actorDto, Actor.class);
+        mongoTemplate.updateFirst(Query.query(Criteria.where("_id").is(actor.getId())),
+                Update.update("name", actor.getName()).set("surname", actor.getSurname()), Actor.class);
+
     }
 
     public void deleteActor(String actorId) {

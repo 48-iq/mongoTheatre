@@ -71,7 +71,7 @@ public class ActorsController {
 
     @PutMapping
     public String updateActor(@ModelAttribute ActorDto actorDto) {
-        actorService.saveActor(actorDto);
+        actorService.updateActor(actorDto);
         return "redirect:/actors";
     }
 

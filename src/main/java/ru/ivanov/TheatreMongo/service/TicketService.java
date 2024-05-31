@@ -7,6 +7,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -29,6 +30,16 @@ public class TicketService {
         query.addCriteria(Criteria.where("_id").is(ticketId));
         Ticket ticket = mongoTemplate.findOne(query, Ticket.class);
         return modelMapper.map(ticket, TicketDto.class);
+    }
+
+    public void updateTicket(TicketDto ticketDto) {
+        MongoTemplate mongoTemplate = mongoTemplateProvider.getMongoTemplate();
+        Ticket ticket = modelMapper.map(ticketDto, Ticket.class);
+        mongoTemplate.updateFirst(Query.query(Criteria.where("_id").is(ticketDto.getId())),
+                Update.update("price", ticket.getPrice())
+                        .set("row", ticket.getRow())
+                        .set("place", ticket.getPlace()),
+                Ticket.class);
     }
 
     public List<TicketDto> getTicketsByPerformanceId(String performanceId) {
@@ -57,7 +68,7 @@ public class TicketService {
                 .toList();
     }
 
-    public TicketDto saveTicket(String performanceId, TicketDto ticketDto) {
+    public TicketDto saveTicket(TicketDto ticketDto) {
         MongoTemplate mongoTemplate = mongoTemplateProvider.getMongoTemplate();
         Ticket ticket = modelMapper.map(ticketDto, Ticket.class);
         ticket = mongoTemplate.save(ticket);

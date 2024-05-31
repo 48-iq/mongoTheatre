@@ -48,7 +48,7 @@ public class PerformanceController {
 
     @PutMapping
     public String updatePerformanceProcessing(@ModelAttribute PerformanceDto performanceDto) {
-        performanceDto = performanceService.savePerformance(performanceDto);
+        performanceService.updatePerformance(performanceDto);
         return String.format("redirect:/performances/%s/update", performanceDto.getId());
     }
 

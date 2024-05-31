@@ -41,13 +41,13 @@ public class TicketController {
     @PostMapping("/performances/{id}")
     public String createTicket(@ModelAttribute TicketDto ticketDto, @PathVariable("id") String performanceId) {
         ticketDto.setId(null);
-        ticketDto = ticketService.saveTicket(performanceId,ticketDto);
+        ticketDto = ticketService.saveTicket(ticketDto);
         performanceService.addTicketToPerformance(performanceId, ticketDto.getId());
         return "redirect:/tickets/performances/" + performanceId;
     }
     @PutMapping("/performances/{id}")
     public String updateTicket(@ModelAttribute TicketDto ticketDto, @PathVariable("id") String performanceId) {
-        ticketDto = ticketService.saveTicket(performanceId,ticketDto);
+        ticketService.updateTicket(ticketDto);
         return "redirect:/tickets/performances/" + performanceId;
     }
     

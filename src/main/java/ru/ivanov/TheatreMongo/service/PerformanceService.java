@@ -7,6 +7,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -49,6 +50,17 @@ public class PerformanceService {
         return modelMapper.map(performance, PerformanceDto.class);
     }
 
+    public void updatePerformance(PerformanceDto performanceDto) {
+        MongoTemplate mongoTemplate = mongoTemplateProvider.getMongoTemplate();
+        Performance performance = modelMapper.map(performanceDto, Performance.class);
+        mongoTemplate.updateFirst(Query.query(Criteria.where("_id").is(performanceDto.getId())),
+                Update.update("name", performance.getName())
+                        .set("date", performance.getDate())
+                        .set("ticketsList", performance.getTicketsList())
+                        .set("actors", performance.getActors())
+                        .set("time", performance.getTime()), Performance.class);
+    }
+
     public void deletePerformance(String performanceId) {
         MongoTemplate mongoTemplate = mongoTemplateProvider.getMongoTemplate();
         Query query = new Query();
@@ -73,7 +85,7 @@ public class PerformanceService {
             performance.setActors(new ArrayList<>(performance.getActors()));
         if (!performance.getActors().contains(actorId))
             performance.getActors().add(actorId);
-        mongoTemplate.save(performance);
+        updatePerformance(modelMapper.map(performance, PerformanceDto.class));
     }
 
     public void addTicketToPerformance(String performanceId, String ticketId) {
@@ -84,7 +96,7 @@ public class PerformanceService {
         
         if (!performance.getTicketsList().contains(ticketId))
             performance.getTicketsList().add(ticketId);
-        mongoTemplate.save(performance);
+        updatePerformance(modelMapper.map(performance, PerformanceDto.class));
     }
 
     public void removeTicketFromPerformance(String performanceId, String ticketId) {
@@ -92,7 +104,7 @@ public class PerformanceService {
         Performance performance = mongoTemplate.findById(performanceId, Performance.class);
         if (performance.getTicketsList().contains(ticketId))
             performance.getTicketsList().remove(ticketId);
-        mongoTemplate.save(performance);
+        updatePerformance(modelMapper.map(performance, PerformanceDto.class));
     }
 
     public void removeActorFromPerformance(String performanceId, String actorId) {
@@ -104,7 +116,7 @@ public class PerformanceService {
             performance.setActors(new ArrayList<>(performance.getActors()));
         if (performance.getActors().contains(actorId))
             performance.getActors().remove(actorId);
-        mongoTemplate.save(performance);
+        updatePerformance(modelMapper.map(performance, PerformanceDto.class));
     }
 
     public List<PerformanceDto> getPerformancesByName(String name) {
@@ -124,4 +136,5 @@ public class PerformanceService {
         }
         return income;
     }
+
 }
