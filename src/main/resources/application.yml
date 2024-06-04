@@ -8,7 +8,7 @@ spring:
 mongodb:
     connection:
         database: theatre
-        host: localhost
+        host: mongodb
         port: 27017
 logging:
     level:
